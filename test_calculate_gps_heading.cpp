@@ -11,7 +11,7 @@ struct test_point {
     double lon1;
     double lat2;
     double lon2;
-    double heading;
+    double target_heading;
 };
 
 static bool almost_equal(double val, double target) {
@@ -20,6 +20,9 @@ static bool almost_equal(double val, double target) {
 
 int main() {
 
+    bool tests_passed = true;
+    
+    // Setup a list of test points
     std::vector<test_point> test_points{
 
         { 52.981935612371615, -6.0326861216896495, 52.98331462882221, -6.034538892416848, 321.0316 },
@@ -31,17 +34,23 @@ int main() {
         {-64.4177000,-56.9970700, -64.41772, -56.9578, 90.083},
     };
     
+    // Loop through each test point.
     for (const auto& point: test_points) {
         double heading = calculate_gps_heading(point.lat1, point.lon1, point.lat2, point.lon2);
         
-        std::cout << "heading is: (degrees)" << std::setprecision(5) << heading << std::endl;
+        auto pass = almost_equal(heading, point.target_heading);
         
-        if (almost_equal(heading, point.heading)) {
-            std::cout << "PASS" << std::endl;
+        if (!pass)
+            tests_passed = false;
+        
+        if (pass) {
+            std::cout << "PASS";
         } else {
-            std::cout << "FAIL" << std::endl;
+            std::cout << "FAIL";
         }
+        
+        std::cout << ", heading: " << std::setprecision(5) << heading << ", target: " << point.target_heading << std::endl;
     }
     
-    return 0;
+    return tests_passed ? 0 : 1;
 }

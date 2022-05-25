@@ -25,6 +25,11 @@ static inline double to_degrees(double theta) {
     return (theta * 180.0) / M_PI;
 }
 
+//
+// Calculate the heading in decimal degrees between 2 (preferably quite close) locations 
+// (lat1, lon1) --> First location
+// (lat2, lon2) --> Second location
+//
 double calculate_gps_heading(double lat1, double lon1, double lat2, double lon2) {
     // Convert degrees to radians
     lat1 = to_rad(lat1);
@@ -38,8 +43,10 @@ double calculate_gps_heading(double lat1, double lon1, double lat2, double lon2)
     
     double heading = atan2(X,Y);
     
+    // We want heading in degrees, not radians.
     heading = to_degrees(heading);
-    
+  
+    // We want a uniform heading of >=0 and <360
     if (heading < 0)
         heading = 360.0 + heading;
     
