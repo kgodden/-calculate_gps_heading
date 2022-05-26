@@ -19,7 +19,8 @@ There are some tests in a file called **test_calculate_gps_heading.cpp**
 To build and run them first execute make and then run test_calculate_gps_heading, ypu shpuld see some output like this:
 
 ```
-$ ./test_calculate_gps_heading.exe
+$ make ; ./test_calculate_gps_heading.exe
+g++ -o test_calculate_gps_heading  calculate_gps_heading.cpp test_calculate_gps_heading.cpp -std=c++11
 PASS: heading: 321.03, target: 321.03
 PASS: heading: 141.03, target: 141.03
 PASS: heading: 69.104, target: 69.11
